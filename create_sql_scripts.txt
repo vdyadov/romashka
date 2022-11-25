@@ -1,0 +1,273 @@
+CREATE TABLE zakaz (
+	id INTEGER,
+	client_id INTEGER,
+	time NUMERIC,
+	people_count INTEGER,
+	status INTEGER,
+	address TEXT,
+	is_pay NUMERIC,
+	CONSTRAINT zakaz_PK PRIMARY KEY (id),
+	CONSTRAINT zakaz_UN UNIQUE (id,client_id),
+	CONSTRAINT zakaz_UN UNIQUE (id),
+	CONSTRAINT zakaz_UN UNIQUE (client_id)
+);
+
+
+CREATE TABLE client_id (
+	id INTEGER,
+	name TEXT,
+	telephone TEXT,
+	email TEXT,
+	address TEXT,
+	CONSTRAINT client_id_PK PRIMARY KEY (id),
+	CONSTRAINT client_id_UN UNIQUE (id)
+);
+
+
+CREATE TABLE zakaz_table (
+	id INTEGER,
+	zkaz_id INTEGER,
+	table_id INTEGER,
+	time_1 INTEGER,
+	time_2 INTEGER,
+	CONSTRAINT zakaz_table_PK PRIMARY KEY (id),
+	CONSTRAINT zakaz_table_UN UNIQUE (zkaz_id),
+	CONSTRAINT zakaz_table_UN UNIQUE (table_id),
+	CONSTRAINT zakaz_table_UN UNIQUE (id)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Create foreign key zakaz_FK
+
+CREATE TEMPORARY TABLE temp AS
+SELECT *
+FROM zakaz;
+
+DROP TABLE zakaz;
+
+CREATE TABLE zakaz (
+	id INTEGER,
+	client_id INTEGER,
+	time NUMERIC,
+	people_count INTEGER,
+	status INTEGER,
+	address TEXT,
+	is_pay NUMERIC,
+	CONSTRAINT zakaz_PK PRIMARY KEY (id),
+	CONSTRAINT zakaz_FK FOREIGN KEY (client_id) REFERENCES client_id(id)
+);
+
+INSERT INTO zakaz
+SELECT *
+FROM temp;
+
+DROP TABLE temp;
+-- Drop foreign key zakaz_FK
+
+CREATE TEMPORARY TABLE temp AS
+SELECT *
+FROM zakaz;
+
+DROP TABLE zakaz;
+
+CREATE TABLE zakaz (
+	id INTEGER,
+	client_id INTEGER,
+	time NUMERIC,
+	people_count INTEGER,
+	status INTEGER,
+	address TEXT,
+	is_pay NUMERIC,
+	CONSTRAINT zakaz_PK PRIMARY KEY (id),
+	CONSTRAINT zakaz_FK FOREIGN KEY (client_id) REFERENCES client_id(id)
+);
+
+INSERT INTO zakaz
+SELECT *
+FROM temp;
+
+DROP TABLE temp;
+
+
+
+
+
+
+
+
+
+
+
+
+-- Drop foreign key zakaz_table_FK
+
+CREATE TEMPORARY TABLE temp AS
+SELECT *
+FROM zakaz_table;
+
+DROP TABLE zakaz_table;
+
+CREATE TABLE zakaz_table (
+	id INTEGER,
+	zkaz_id INTEGER,
+	table_id INTEGER,
+	time_1 INTEGER,
+	time_2 INTEGER,
+	CONSTRAINT zakaz_table_PK PRIMARY KEY (id),
+	CONSTRAINT zakaz_table_FK FOREIGN KEY (zkaz_id) REFERENCES zakaz(id),
+	CONSTRAINT zakaz_table_FK_1 FOREIGN KEY (table_id) REFERENCES types_zakaz_table(id)
+);
+
+INSERT INTO zakaz_table
+SELECT *
+FROM temp;
+
+DROP TABLE temp;
+-- Create foreign key zakaz_table_FK
+
+CREATE TEMPORARY TABLE temp AS
+SELECT *
+FROM zakaz_table;
+
+DROP TABLE zakaz_table;
+
+CREATE TABLE zakaz_table (
+	id INTEGER,
+	zkaz_id INTEGER,
+	table_id INTEGER,
+	time_1 INTEGER,
+	time_2 INTEGER,
+	CONSTRAINT zakaz_table_PK PRIMARY KEY (id),
+	CONSTRAINT zakaz_table_FK FOREIGN KEY (zkaz_id) REFERENCES zakaz(id),
+	CONSTRAINT zakaz_table_FK_1 FOREIGN KEY (table_id) REFERENCES types_zakaz_table(id)
+);
+
+INSERT INTO zakaz_table
+SELECT *
+FROM temp;
+
+DROP TABLE temp;
+-- Create foreign key zakaz_table_FK_1
+
+CREATE TEMPORARY TABLE temp AS
+SELECT *
+FROM zakaz_table;
+
+DROP TABLE zakaz_table;
+
+CREATE TABLE zakaz_table (
+	id INTEGER,
+	zkaz_id INTEGER,
+	table_id INTEGER,
+	time_1 INTEGER,
+	time_2 INTEGER,
+	CONSTRAINT zakaz_table_PK PRIMARY KEY (id),
+	CONSTRAINT zakaz_table_FK FOREIGN KEY (zkaz_id) REFERENCES zakaz(id),
+	CONSTRAINT zakaz_table_FK_1 FOREIGN KEY (table_id) REFERENCES types_zakaz_table(id)
+);
+
+INSERT INTO zakaz_table
+SELECT *
+FROM temp;
+
+DROP TABLE temp;
+
+
+
+CREATE TABLE types_zakaz_dish (
+	id INTEGER,
+	count INTEGER,
+	name TEXT,
+	price INTEGER,
+	types_tseh_id INTEGER,
+	caption TEXT,
+	CONSTRAINT types_zakaz_dish_PK PRIMARY KEY (id),
+	CONSTRAINT types_zakaz_dish_FK FOREIGN KEY (types_tseh_id) REFERENCES types_zakaz_tseh(id)
+);
+
+
+CREATE TABLE types_zakaz_tseh (
+	id INTEGER,
+	caption TEXT,
+	CONSTRAINT types_zakaz_tseh_PK PRIMARY KEY (id)
+);
+
+
+CREATE TABLE types_zakaz_img (
+	id INTEGER,
+	"path" TEXT,
+	CONSTRAINT types_zakaz_img_PK PRIMARY KEY (id)
+);
+
+
+
+CREATE TABLE types_zakaz_table (
+	id INTEGER,
+	count INTEGER,
+	zona INTEGER,
+	CONSTRAINT types_zakaz_table_PK PRIMARY KEY (id)
+);
+
+
+CREATE TABLE zakaz_dish (
+	id INTEGER,
+	zakaz_id INTEGER,
+	dish_id INTEGER,
+	count INTEGER,
+	img_id INTEGER,
+	CONSTRAINT zakaz_dish_PK PRIMARY KEY (id),
+	CONSTRAINT zakaz_dish_UN UNIQUE (zakaz_id),
+	CONSTRAINT zakaz_dish_UN UNIQUE (zakaz_id,dish_id,img_id),
+	CONSTRAINT zakaz_dish_UN UNIQUE (dish_id),
+	CONSTRAINT zakaz_dish_UN UNIQUE (img_id),
+	CONSTRAINT zakaz_dish_FK FOREIGN KEY (zakaz_id) REFERENCES zakaz(id),
+	CONSTRAINT zakaz_dish_FK_1 FOREIGN KEY (dish_id) REFERENCES types_zakaz_dish(id),
+	CONSTRAINT zakaz_dish_FK_2 FOREIGN KEY (img_id) REFERENCES types_zakaz_img(id)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
